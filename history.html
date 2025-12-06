@@ -5,7 +5,10 @@
     <title>Project: Travel webpage</title>
     <style>
       #title {font-family: 'Times New Roman', Times, serif; font-size: 100px;}
-      body {font-family: monospace;}
+      body {
+        font-family: monospace;
+        background-color: #dbd6d0;
+      }
       table {
         border: 1px solid rgb(77, 77, 77);
       }
@@ -14,7 +17,10 @@
         padding: 4px;
       }
       tbody tr:nth-child(even){
-        background-color: #f2f2f2;;
+        background-color: #97938d;;
+      }
+      tbody tr:nth-child(odd){
+        background-color: #b3b1a9;;
       }
       .status.rejected{
         color: rgb(248, 47, 47);
@@ -28,8 +34,7 @@
         padding: 2px 16px;
       }
       .status.applied{
-        color: white;
-        background-color: rgb(93, 181, 6);
+        color: rgb(93, 181, 6);
         border-radius: 4px;
         padding: 2px 16px;
       }
@@ -87,6 +92,9 @@
         <td>Product Designer</td>
         <td data-applied="2025-12-01">251001</td>
         <td class="days-since">-</td>
+        <td>
+          <span class="status applied">applied</span>
+        </td>
         <td>왜? 답이 안오지?ㅎ</td>
         <td><a href="https://job-boards.greenhouse.io/figma/jobs/5657064004?gh_jid=5657064004">링크</a></td>
         </tr>
@@ -96,7 +104,10 @@
         <td>Product Designer</td>
         <td data-applied="2025-12-01">251205</td>
         <td class="days-since">-</td>
-        <td>-</td>
+        <td>
+          <span class="status offered">offered</span>
+        </td>        
+        <td>제발</td>
         <td><a href="">링크</a></td>
         </tr>
 <!--회사, 직책, 날짜, 경과, 결과, 메모, 링크-->
@@ -105,6 +116,9 @@
         <td>Product Designer</td>
         <td data-applied="2025-12-01">251205</td>
         <td class="days-since">-</td>
+        <td>
+          <span class="status applied">applied</span>
+        </td>
         <td>Closed in 1 day 😭</td>  
         <td><a href="">링크</a></td>
       </tr>
@@ -240,9 +254,21 @@
             const row = td.parentElement;
             const daysCell = row.querySelector('.days-since');
 
-            if (daysCell) {
-              daysCell.textContent = diffDays === 0 ? 'Today' : `D+${diffDays}`;
-            }
+
+
+            if (!daysCell)  return; // days-since 셀이 없으면 패스
+            
+              const label = diffDays === 0 ? 'Today' : `D+${diffDays}`;
+              // 결과에 따라 색상 다르게 표시
+              const statusSpan = row.querySelector('.status');
+              if (statusSpan) {
+                //뱃지 있으면 같은 스타일로 색 넣기
+                const statusClass = statusSpan.className; // rejected, applied 등
+                daysCell.innerHTML = `<span class="${statusClass}">${label}</span>`;
+              } else {
+                daysCell.textContent = label;
+              }
+
           });
         }
     </script>
